@@ -2,22 +2,50 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.text.FlxText;
+import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
 	var player:Player;
+	var map:FlxOgmo3Loader;
+	var walls:FlxTilemap;
+	var walls2:FlxTilemap;
 
 	override public function create()
 	{
+		// setup map
+		map = new FlxOgmo3Loader("assets/data/touhou_tiles.ogmo", "assets/data/testlv1.json");
+		walls = map.loadTilemap("assets/data/overworld_tileset.png", "walls");
+		walls2 = map.loadTilemap("assets/data/overworld_tileset.png", "walls2");
+		walls.follow();
+		walls.setTileProperties(1, NONE);
+		walls.setTileProperties(2, ANY);
+		add(walls);
+		walls2.follow();
+		walls2.setTileProperties(1, ANY);
+		walls2.setTileProperties(2, ANY);
+		add(walls2);
+		// setup player
 		player = new Player(20, 20);
 		add(player);
+		map.loadEntities(placeEntities, "entities");
 		FlxG.camera.follow(player, TOPDOWN, 1);
 		super.create();
 	}
 
+	function placeEntities(entity:EntityData)
+	{
+		if (entity.name == "player")
+		{
+			player.setPosition(entity.x, entity.y);
+		}
+	}
+
 	override public function update(elapsed:Float)
 	{
+		FlxG.collide(player, walls2);
 		super.update(elapsed);
 	}
 }
