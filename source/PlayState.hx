@@ -12,21 +12,42 @@ class PlayState extends FlxState
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
 	var walls2:FlxTilemap;
+	var bgsel : Int = 1;
 
 	override public function create()
 	{
 		// setup map
-		map = new FlxOgmo3Loader("assets/data/touhou_tiles.ogmo", "assets/data/testlv1.json");
-		walls = map.loadTilemap("assets/data/overworld_tileset.png", "walls");
-		walls2 = map.loadTilemap("assets/data/overworld_tileset.png", "walls2");
-		walls.follow();
-		walls.setTileProperties(1, NONE);
-		walls.setTileProperties(2, ANY);
-		add(walls);
-		walls2.follow();
-		walls2.setTileProperties(1, ANY);
-		walls2.setTileProperties(2, ANY);
-		add(walls2);
+		if(bgsel == 0) {
+			map = new FlxOgmo3Loader("assets/data/touhou_tiles.ogmo", "assets/data/testlv1.json");
+			walls = map.loadTilemap("assets/data/overworld_tileset.png", "walls");
+			walls2 = map.loadTilemap("assets/data/overworld_tileset.png", "walls2");
+			walls.follow();
+			walls.setTileProperties(0, NONE);
+			walls.setTileProperties(1, NONE);
+			walls.setTileProperties(2, ANY);
+			add(walls);
+			walls2.follow();
+			walls2.setTileProperties(1, ANY);
+			walls2.setTileProperties(2, ANY);
+			add(walls2);
+		} else {
+			map = new FlxOgmo3Loader("assets/data/backrooms_tiles.ogmo", "assets/data/bkrms1.json");
+			walls = map.loadTilemap("assets/data/backrooms_tiles.png", "walls");
+			walls2 = map.loadTilemap("assets/data/backrooms_tiles.png", "walls2");
+			walls.follow();
+			walls.setTileProperties(1, NONE);
+			walls.setTileProperties(2, ANY);
+			walls.setTileProperties(3, ANY);
+			walls.setTileProperties(4, ANY);
+			walls.setTileProperties(5, NONE);
+			add(walls);
+			walls2.follow();
+			walls2.setTileProperties(1, ANY);
+			walls2.setTileProperties(2, ANY);
+			walls2.setTileProperties(3, ANY);
+			add(walls2);
+		}
+		
 		// setup player
 		player = new Player(20, 20);
 		add(player);
