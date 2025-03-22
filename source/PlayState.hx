@@ -18,6 +18,10 @@ class PlayState extends FlxState
 	{
 		// setup map
 		if(bgsel == 0) {
+			if (FlxG.sound.music == null) // don't restart the music if it's already playing
+				{
+					FlxG.sound.playMusic(AssetPaths.at_the_harbor_of_spring__ogg, 1, true);
+				}
 			map = new FlxOgmo3Loader("assets/data/touhou_tiles.ogmo", "assets/data/testlv1.json");
 			walls = map.loadTilemap("assets/data/overworld_tileset.png", "walls");
 			walls2 = map.loadTilemap("assets/data/overworld_tileset.png", "walls2");
@@ -31,6 +35,10 @@ class PlayState extends FlxState
 			walls2.setTileProperties(2, ANY);
 			add(walls2);
 		} else {
+			if (FlxG.sound.music == null) // don't restart the music if it's already playing
+				{
+					FlxG.sound.playMusic(AssetPaths.backrooms_sfx__ogg, 1, true);
+				}
 			map = new FlxOgmo3Loader("assets/data/backrooms_tiles.ogmo", "assets/data/bkrms1.json");
 			walls = map.loadTilemap("assets/data/backrooms_tiles.png", "walls");
 			walls2 = map.loadTilemap("assets/data/backrooms_tiles.png", "walls2");

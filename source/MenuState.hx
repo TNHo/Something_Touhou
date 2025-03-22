@@ -49,6 +49,10 @@ class MenuState extends FlxState
 
 	function clickPlay()
 	{
+		// Kill the menu music
+		FlxG.sound.pause();
+		FlxG.sound.music = null;
+		// Start the real game
 		FlxG.switchState(new PlayState());
 	}
 
