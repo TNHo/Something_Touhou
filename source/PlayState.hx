@@ -1,5 +1,7 @@
 package;
 
+import flixel.math.FlxPoint;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -13,6 +15,7 @@ class PlayState extends FlxState
 	var walls:FlxTilemap;
 	var walls2:FlxTilemap;
 	var bgsel : Int = 0;
+	var enemies:FlxTypedGroup<Enemy>;
 
 	override public function create()
 	{
@@ -22,9 +25,9 @@ class PlayState extends FlxState
 				{
 					FlxG.sound.playMusic(AssetPaths.at_the_harbor_of_spring__ogg, 1, true);
 				}
-			map = new FlxOgmo3Loader("assets/data/touhou_tiles.ogmo", "assets/data/testlv1.json");
-			walls = map.loadTilemap("assets/data/overworld_tileset.png", "walls");
-			walls2 = map.loadTilemap("assets/data/overworld_tileset.png", "walls2");
+			map = new FlxOgmo3Loader(AssetPaths.touhou_tiles__ogmo, AssetPaths.testlv1__json);
+			walls = map.loadTilemap(AssetPaths.overworld_tileset__png, "walls");
+			walls2 = map.loadTilemap(AssetPaths.overworld_tileset__png, "walls2");
 			walls.follow();
 			walls.setTileProperties(0, NONE);
 			walls.setTileProperties(1, NONE);
@@ -39,9 +42,9 @@ class PlayState extends FlxState
 				{
 					FlxG.sound.playMusic(AssetPaths.backrooms_sfx__ogg, 1, true);
 				}
-			map = new FlxOgmo3Loader("assets/data/backrooms_tiles.ogmo", "assets/data/bkrms1.json");
-			walls = map.loadTilemap("assets/data/backrooms_tiles.png", "walls");
-			walls2 = map.loadTilemap("assets/data/backrooms_tiles.png", "walls2");
+			map = new FlxOgmo3Loader(AssetPaths.backrooms_tiles__ogmo, AssetPaths.bkrms1__json);
+			walls = map.loadTilemap(AssetPaths.backrooms_tiles__png, "walls");
+			walls2 = map.loadTilemap(AssetPaths.backrooms_tiles__png, "walls2");
 			walls.follow();
 			walls.setTileProperties(1, NONE);
 			walls.setTileProperties(2, ANY);
@@ -56,6 +59,9 @@ class PlayState extends FlxState
 			add(walls2);
 		}
 		
+		enemies = new FlxTypedGroup<Enemy>();
+		add(enemies);
+
 		// setup player
 		player = new Player(20, 20);
 		add(player);
@@ -66,15 +72,40 @@ class PlayState extends FlxState
 
 	function placeEntities(entity:EntityData)
 	{
-		if (entity.name == "player")
+		var x = entity.x;
+		var y = entity.y;
+
+		switch (entity.name)
 		{
-			player.setPosition(entity.x, entity.y);
+			case "player":
+				player.setPosition(x, y);
+
+			case "fairy":
+				enemies.add(new Enemy(x + 4, y, REGULAR));
+
+			case "boss":
+				enemies.add(new Enemy(x + 4, y, BOSS));
 		}
 	}
 
 	override public function update(elapsed:Float)
 	{
 		FlxG.collide(player, walls2);
+		FlxG.collide(enemies, walls);
+		enemies.forEachAlive(checkEnemyVision);
 		super.update(elapsed);
+	}
+
+	function checkEnemyVision(enemy:Enemy)
+	{
+		if (walls.ray(enemy.getMidpoint(), player.getMidpoint()))
+		{
+			enemy.seesPlayer = true;
+			enemy.playerPosition = player.getMidpoint();
+		}
+		else
+		{
+			enemy.seesPlayer = false;
+		}
 	}
 }

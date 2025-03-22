@@ -15,7 +15,11 @@
       "gridCellsX": 29,
       "gridCellsY": 16,
       "entities": [
-        {"name": "player", "id": 0, "_eid": "58471353", "x": 208, "y": 104, "originX": 0, "originY": 0}
+        {"name": "player", "id": 0, "_eid": "58471353", "x": 208, "y": 104, "originX": 0, "originY": 0},
+        {"name": "fairy", "id": 1, "_eid": "67326953", "x": 416, "y": 130, "originX": 0, "originY": 0},
+        {"name": "fairy", "id": 2, "_eid": "67326953", "x": 260, "y": 286, "originX": 0, "originY": 0},
+        {"name": "fairy", "id": 3, "_eid": "67326953", "x": 650, "y": 130, "originX": 0, "originY": 0},
+        {"name": "fairy", "id": 4, "_eid": "67326953", "x": 390, "y": 26, "originX": 0, "originY": 0}
       ]
     },
     {
