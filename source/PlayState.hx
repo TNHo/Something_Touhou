@@ -10,11 +10,11 @@ import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
+	var bgsel : Int = 1;
 	var player:Player;
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
 	var walls2:FlxTilemap;
-	var bgsel : Int = 0;
 	var enemies:FlxTypedGroup<Enemy>;
 
 	override public function create()
