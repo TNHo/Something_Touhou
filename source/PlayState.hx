@@ -10,7 +10,7 @@ import flixel.tile.FlxTilemap;
 
 class PlayState extends FlxState
 {
-	var bgsel : Int = 1;
+	var bgsel : Int = 0;
 	var player:Player;
 	var map:FlxOgmo3Loader;
 	var walls:FlxTilemap;
